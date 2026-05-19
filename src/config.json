@@ -1,0 +1,20 @@
+{
+    "token": "token here",
+
+    "prefix": ";",
+
+    "MONGO": "mongodb here",
+
+    "owner": [
+        "1474093186929659904",
+        ""
+    ],
+
+    "extraowners": [],
+
+    "reportChannel": "1506385497843564655",
+
+    "support_server_link": "https://discord.gg/aerox",
+
+    "inviteURL": "https://discord.gg/aerox"
+}
