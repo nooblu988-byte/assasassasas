@@ -112,10 +112,25 @@ client.lmdb = lmdb;
 client.lmdbGet = (key) => lmdb.get(key);
 client.lmdbSet = (key, value) => lmdb.put(key, value);
 client.lmdbDel = (key) => lmdb.remove(key);
+
+// ═══════════════════════════════════════════════════════════════
+// 🔥 UPDATED WHITELIST FUNCTION — Checks config.json too!
+// ═══════════════════════════════════════════════════════════════
 client.isWhitelisted = (guildId, userId) => {
- const whitelist = lmdb.get(`whitelist_${guildId}`) || [];
- return whitelist.includes(userId);
+ // LMDB database whitelist (from ;whitelist add command)
+ const dbWhitelist = lmdb.get(`whitelist_${guildId}`) || [];
+
+ // Config.json whitelist (file-based)
+ const configWhitelist = config.whitelist || [];
+ const configOwners = config.owner || [];
+ const configExtraOwners = config.extraowners || [];
+
+ return dbWhitelist.includes(userId) || 
+        configWhitelist.includes(userId) ||
+        configOwners.includes(userId) ||
+        configExtraOwners.includes(userId);
 };
+
 client.isAntinukeEnabled = (guildId) =>
  lmdb.get(`antinuke_${guildId}`) === "enabled";
 
@@ -157,33 +172,9 @@ client.once("clientReady", () => {
  console.log(`${c.purple}${c.bright} ─────────────────────────────────────${c.reset}\n`);
 
  // ═══════════════════════════════════════════════════════════════
- // 🎮 NOOBLU SECURITY BOT STATUS — Customize below
+ // 🎮 NOOBLU SECURITY BOT STATUS — KING STYLE 👑
  // ═══════════════════════════════════════════════════════════════
-
- // 🔥 ACTIVE STATUS (currently enabled):
- client.user.setActivity(`${config.prefix}help | Nooblu Security 🔒`, { type: 3 }); // Watching
-
- // 👇 OTHER COOL OPTIONS — uncomment any one to switch:
-
- // Option 1: Playing
- // client.user.setActivity(`${config.prefix}help | Protecting Servers`, { type: 0 });
-
- // Option 2: Listening
- // client.user.setActivity(`Security Alerts`, { type: 2 });
-
- // Option 3: Competing
- // client.user.setActivity(`Anti-Nuke Defense`, { type: 5 });
-
- // Option 4: Dynamic — shows server count
- // client.user.setActivity(`${client.guilds.cache.size} servers | Nooblu 🔒`, { type: 3 });
-
- // Option 5: Custom status (Discord.js v14+ supports this via setPresence)
- // client.user.setPresence({
- //     activities: [{ name: 'Nooblu Security Bot', type: 4 }], // Custom
- //     status: 'online'
- // });
-
- // 🟢 Status (online/idle/dnd/invisible)
+ client.user.setActivity(`👑 NOOBLU SECURITY`, { type: 3 });
  client.user.setStatus('online');
 });
 
